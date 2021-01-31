@@ -8,7 +8,10 @@ tags:
   - info
   - learning
   - the joy of discovery
+logotext: "cat markdown-text.md"
 ---
+
+###### {{<param title>}}
 ## Headers
 You can represent a header with a # sign. The more #'s, the smaller the header.
 ###### ###### There
