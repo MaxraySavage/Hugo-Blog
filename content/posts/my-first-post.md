@@ -8,7 +8,9 @@ tags:
   - info
   - learning
   - the joy of discovery
-logotext: "cat markdown-text.md"
+  - Hugo
+  - Markdown
+logoText: "cat markdown-text.md"
 ---
 
 ###### {{<param title>}}
@@ -78,3 +80,40 @@ Like so: [[Log me out of gmal](https://mail.google.com/mail/logout)](https://mai
 ``` > Quotes, creates a quote ```
 > Quotes
 
+
+## Code
+```python {linenos=table,hl_lines=[2],linenostart=19}
+x = 12
+x = x%5
+
+def squared(num):
+    return num*num
+
+y = squared(x)
+
+
+```
+
+{{< highlight python "linenos=table,hl_lines=3,linenostart=199" >}}
+x = 12
+x = x%5
+
+def squared(num):
+    return num*num
+
+y = squared(x)
+{{< / highlight >}}
+
+```html
+<body>
+  <h1> Hello! </h1>
+</body>
+```
+
+```bash
+ls -al .
+cat /var/log | grep login
+```
+
+## Youtube Embed
+{{< youtube id="-1wirGsdK4U" title="Blawan - What You Do With What You Have" >}}
