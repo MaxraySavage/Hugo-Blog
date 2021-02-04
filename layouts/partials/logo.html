@@ -6,7 +6,7 @@
             <span class="logo__mark">{{ with .Site.Params.Logo.logoMark }}{{ . }}{{ else }}>{{ end }}</span>
             
             {{ if .Page.Params.logotext }}
-                <span class="logo__text">{{ with .Page.Params.logotext }}{{ . }}{{ else }}hello{{ end }}</span>
+                <span class="logo__text">{{ with .Page.Params.logoText }}{{ . }}{{ else }}hello{{ end }}</span>
             {{ else }}
                 <span class="logo__text">{{ with .Site.Params.Logo.logoText }}{{ . }}{{ else }}hello{{ end }}</span>
             {{ end }}

@@ -117,3 +117,16 @@ cat /var/log | grep login
 
 ## Youtube Embed
 {{< youtube id="-1wirGsdK4U" title="Blawan - What You Do With What You Have" >}}
+
+## Footnotes
+Will this[^1] make a footnote?
+
+[^1]: Is this the first footnote?
+
+What does the big[^bignote] footnote do?
+
+[^bignote]: How much can I put in this footnote? Quite a bit!
+    ```python
+    for each footnote in footnotes:
+      print(f"{footnote} ")
+    ```
