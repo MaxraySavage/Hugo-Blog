@@ -82,6 +82,11 @@ Like so: [[Log me out of gmal](https://mail.google.com/mail/logout)](https://mai
 
 
 ## Code
+Let's see how ``` in-line code ``` looks.
+What if I make it in-line ```python python``` code?
+
+
+
 ```python {linenos=table,hl_lines=[2],linenostart=19}
 x = 12
 x = x%5
@@ -90,8 +95,10 @@ def squared(num):
     return num*num
 
 y = squared(x)
+```
 
-
+```python
+this_block = "doesn't have a language set for it"
 ```
 
 {{< highlight python "linenos=table,hl_lines=3,linenostart=199" >}}
