@@ -115,6 +115,12 @@ ls -al .
 cat /var/log | grep login
 ```
 
+## Gists
+
+You can embed Github Gists but you get the WHOLE THING. Careful.
+{{< gist MaxraySavage a23b413c5ae112e92ffb>}}
+
+
 ## Youtube Embed
 {{< youtube id="-1wirGsdK4U" title="Blawan - What You Do With What You Have" >}}
 
@@ -130,3 +136,4 @@ What does the big[^bignote] footnote do?
     for each footnote in footnotes:
       print(f"{footnote} ")
     ```
+  

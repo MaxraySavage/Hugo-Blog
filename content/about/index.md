@@ -8,4 +8,4 @@ aliases = ["about-me","about-maxray","contact"]
 
 Maxray likes to play Go but they are not very good at it.
 
-<!-- Find more on [Twitter](https://twitter.com/MaxraySavage). -->
+<!-- Find more on [Twitter](https://twitter.com/SMaxray). -->

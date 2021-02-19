@@ -27,9 +27,9 @@ paginate     = 10
   # Default theme "light" or "dark"
   defaultTheme = "dark"
 
-  [[params.social]]
-    name = "twitter"
-    url = "https://twitter.com/SMaxray"
+  # [[params.social]]
+  #   name = "twitter"
+  #   url = "https://twitter.com/SMaxray"
 
   # [[params.social]]
   #   name = "email"
