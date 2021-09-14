@@ -6,10 +6,9 @@ set -e
 printf "\033[0;32mDeploying updates to GitHub...\033[0m\n"
 
 # Erase previous build.
-if [-d ./public]
-then
-	git rm -r ./public
-fi
+cd public
+git rm -r .
+cd ..
 
 # Build the project.
 hugo -t PaperMod # if using a theme, replace with `hugo -t <YOURTHEME>`
