@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Maxray&#39;s Website</title>
+    <link>https://maxraysavage.github.io/posts/</link>
+    <description>Recent content in Posts on Maxray&#39;s Website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 14 Sep 2021 15:48:44 -0400</lastBuildDate><atom:link href="https://maxraysavage.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PEMDAS From Scratch</title>
+      <link>https://maxraysavage.github.io/posts/pemdas-from-scratch/</link>
+      <pubDate>Tue, 14 Sep 2021 15:48:44 -0400</pubDate>
+      
+      <guid>https://maxraysavage.github.io/posts/pemdas-from-scratch/</guid>
+      <description>Intro While building Calculationster, a game written with only HTML/CSS and Javascript I was faced with an interesting problem. We were building a game to help kids practice basic arithmetic and we decidedwe wanted to include arithmetic expressions with more than two terms. However, once you start looking at expressions like this, we need PEMDAS to solve them! I was also working on the logic to generate the problems randomly and I realized I needed to be able to step through PEMDAS in order to make sure the problems were working the way we needed them to.</description>
+    </item>
+    
+  </channel>
+</rss>
