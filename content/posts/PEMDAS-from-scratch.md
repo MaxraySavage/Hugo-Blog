@@ -34,9 +34,11 @@ editPost:
 ---
 
 ## Intro
-While building Calculationster, a game written with only HTML/CSS and Javascript I was faced with an interesting problem. We were building a game to help kids practice basic arithmetic and we decidedwe wanted to include arithmetic expressions with more than two terms. However, once you start looking at expressions like this, we need PEMDAS to solve them! I was also working on the logic to generate the problems randomly and I realized I needed to be able to step through PEMDAS in order to make sure the problems were working the way we needed them to. In this article I'll attempt to describe how I solved this problem using javascript!
+A few months ago I made an edutainment game for The Odin Project's first game jame. My team had decided to build a game for practicing arithmetic expressions. I took on the task of generating the expressions as appropriate for each level of the game. It turned out to be rather challenging to generate random arithmetic expressions that were within certain difficulty constraints. For example, I didn't want the expression to evaluate to a negative number at any point along the evaluation path because we didn't want to require knowledge of negative numbers. In order to ensure this, I had to write my own script to evaluate expressions step by step so I could tell if my generated expressions conformed to my difficulty constraints. This meant I had to encode PEMDAS from scratch. It seems like every few months there's a viral tweet about some arithmetic expression that looks like the solution should be one thing but if strictly evaluated with PEMDAS evaluates to something else. I really enjoyed digging into the mechanics of solving an expression so I am writing this blog post to share.
 
-## Problem
+## Let's Define the Problem
+One of my favorite expressions is the aphorism 
+
 In order to build this featuree, a function that solves an expression with PEMDAS, we have to define what an expression will look like and what PEMDAS is. For this article we will only consider a rather small subset of possible mathematical expressions. Specifically, an expression will be an array of alternating numbers and binary operators. For our game we did not include parentheses in our problems, we will consider their addition ina future article. So an example of an expression would be [1, '+', 5] and we would expect this to equal 6 when solved. Now PEMDAS is a convention of written mathematics and it is not the end all. However it is a convention that can be challenging to learn so we want to help people learn it in our game. For our purposes, PEMDAS will mean the following:
 
 Pemdas Diagram
