@@ -137,7 +137,7 @@ function evalExpression(expressionArray) {
 ```     
             
 And with that, we're done!
-### Parentheses
+## Adding Parentheses
 Parentheses are a little bit tricker than everything else. However, they are a great opportunity to work on recursive problem solving. What we can do is, check to see if our expression has parentheses. If it does, we can take whatever is in the parentheses and call solveExpression on whatever lies between the parentheses. As these subcalls happen, they will eventually get to an expression that has no parentheses, solve that one, and then recurse out of there. So what does this look like? Something like this:
 
 ```javascript
