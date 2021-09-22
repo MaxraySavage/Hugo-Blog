@@ -36,6 +36,8 @@ editPost:
 
 ## Intro
 
+
+
 A few months ago I made an edutainment game for The Odin Project's first game jame. My team had decided to build a game for practicing basic math. I took on the task of generating the problems as appropriate for each level of the game. It was hard! Generating random arithmetic expressions within certain difficulty constraints wasn't simple. In order to enforce our constraints, I wrote my own script to evaluate expressions step by step so I could tell if my problems conformed to my difficulty constraints. Which meant I had to get very friendly with ***PEMDAS***.
 
 I got the impression that it was actually an interesting problem to write code to solve a math problem in the same order and with the same etchniques as how a person might do it. This turned out to be pretty tricky but I had a lot of fun doing it so I decided top make it into my first *ever* blog post! 
@@ -345,4 +347,4 @@ function parseExpression(expressionString) {
 ## Closing Thoughts
 I feel like writing this forced me to refactor my code to be easir to present in this blog and write more helper functions so that the main function would be less bloated looking.
 
-I really like any time I get to use recursion in a reasonable way so I enjoyed figuring out how to deal with parentheses. I like this project because I feel like I came away witha deeper understanding of how expressions are evaluated. What a wild ride! You can check out the game calculationster here: 
+I really like any time I get to use recursion in a reasonable way so I enjoyed figuring out how to deal with parentheses. I like this project because I feel like I came away witha deeper understanding of how expressions are evaluated. What a wild ride! You can check out the game calculationster here: {{<calculationster>}}
