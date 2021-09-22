@@ -36,23 +36,27 @@ editPost:
 
 ## Intro
 
-A few months ago I made an edutainment game for The Odin Project's first game jame. My team had decided to build a game for practicing arithmetic expressions. I took on the task of generating the expressions as appropriate for each level of the game. It turned out to be rather challenging to generate random arithmetic expressions that were within certain difficulty constraints. For example, I didn't want the expression to evaluate to a negative number at any point along the evaluation path because we didn't want to require knowledge of negative numbers. In order to ensure this, I had to write my own script to evaluate expressions step by step so I could tell if my generated expressions conformed to my difficulty constraints. This meant I had to encode PEMDAS from scratch. It seems like every few months there's a viral tweet about some arithmetic expression that looks like the solution should be one thing but if strictly evaluated with PEMDAS evaluates to something else. I really enjoyed digging into the mechanics of solving an expression so I am writing this blog post to share.
+A few months ago I made an edutainment game for The Odin Project's first game jame. My team had decided to build a game for practicing basic math. I took on the task of generating the problems as appropriate for each level of the game. It was hard! Generating random arithmetic expressions within certain difficulty constraints wasn't simple. In order to enforce our constraints, I wrote my own script to evaluate expressions step by step so I could tell if my problems conformed to my difficulty constraints. Which meant I had to get very friendly with ***PEMDAS***.
+
+I got the impression that it was actually an interesting problem to write code to solve a math problem in the same order and with the same etchniques as how a person might do it. This turned out to be pretty tricky but I had a lot of fun doing it so I decided top make it into my first *ever* blog post! 
 
 ## Let's Define the Problem
 I've found that when you attempt to solve a problem with code you can either spend a few extra minutes defining your terms really well in the beginning or get totally lost halfway through whatever your project is. So let's take a moment to think about what we're doing here. 
 
 ### What are we making?
-A function written in javascript. The function should take an arithmetic expression as an input and return the result of evaluating the expression. I did some research on how other people have solved this problem but nothing really seemd to fit because I wanted to evaluate my expressions in the same way that a person would. That way I could maintain my requirements that we never get anything but nonnegative integers at any point along the evaluation path.
+A function written in javascript. The function should take an arithmetic expression as an input and return the result of evaluating the expression. It should ressolve individual operations in the order dictated by **PEMDAS**.
+
+I did some research on how other people have solved this problem but nothing really seemed to fit my requirements because I wanted to evaluate my expressions in the same way that a person would and have the freedom to step through evaluation one operation at a time. 
 
 ### What is an arithmetic expression?
-We have some choices here. We could represent an arithmetic expression as a string but for the purposes of this post, I will represent expressions with arrays so for example, `$3 + 2$` will be an array with 3 elements like this: `[3, '+', 2]`.
+So what really *is* an arithmetic expression? If you dig deeply enough you end up in philosophy. Instead let's allow for a subset of arithmetic expressions specifically
+- there will be numbers
+- there will be binary operators (operators that take two numbers and spit out a number)
+- there will be parentheses
 
-We'll also include parentheses, so we could have something like `$(3 + 2) * 7$` which would look like 
-```
-['(', 3, '+', 2, ')', '*', 7]
-```
+We need to decide on the expected format for our input. So, what is an arithmetic expression ***to us***. We have some choices here. We could represent an arithmetic expression as a string like `'2 + 7 x 4'`. There are benefits to this. For our game I ended up using this method mainly so that other people using my code to generate expressions wouldn't have to deal with formatting and could just print problems to the player. This led to every function I wrote having a preamble splitting the string into an array at the beginning and then rejoining everything at the end. For this article I decided to instead expect an expression to be an array. So for example the expression `$3 + 2$` will be an array with 3 elements like this: `[3, '+', 2]`. We can also include parentheses, so we might have something like `$(3 + 2) \times 7$` which would look like `['(', 3, '+', 2, ')', 'x', 7]`
 
-So our input will be an array of this form. We will trust that our inputs are well formed for the purposes of this algorithm. 
+So our input will be an array of this form. We will trust that our inputs are well formed for the purposes of this algorithm. So no missing parentheses, chains of addition signs or anything else. Not very realistic but maybe validating that could be another article for you to enjoy! Let's save some fun for later.
 
 ### How do you evaluate an expression?
 There's a relatively ubiquitous algorithm for evaluating arithmetic expressions called PEMDAS. This algorithm tends to be pretty tricky as evidenced by the biannual viral tweet where the internet argues about the right way to evaluate some expression or another. PEMDAS is not only an algorithm, it is also an acronym! It stands for 
@@ -70,7 +74,7 @@ Let's consult this handy diagram:
 
 ![PEMDAS diagram](/pemdas-diagram.png)
 
-So the multiplication and division happen in the same tier and the addition and subtraction happen in the same tier. Most of these operators are evaluated from left to right. However, exponents are tricky! They are ***[right associative](https://en.wikipedia.org/wiki/Associative_property)*** which means that, within a sequence of exponents, we should evaluate the rightmost pair first. 
+So the multiplication and division happen in the same tier and the addition and subtraction happen in the same tier. Most of these operators are evaluated from left to right. However, exponents are tricky! Exponents are ***[right associative](https://en.wikipedia.org/wiki/Associative_property)*** which means that, within a sequence of exponents, we should evaluate the rightmost pair first. 
 
 In pseudocode, the PEMDAS algorithm looks like
 
@@ -141,7 +145,10 @@ function evalExpression(expressionArray) {
 ```
 
 ### Finding the Next operator            
-WHat do we do within the `forEach` callback ? We have to look through the expression to see if the operation in the current tier is represented. I did this with the findIndex array method as follows, also handling right associativity:
+What do we do within the `forEach` callback ? 
+We need to look through the expression to see if any operations in the current tier are represented and we need to figure out which of those operations we should do first. 
+
+I did this with the `findIndex` array method because I could search with a custom callback function instead of looking for just one operator at a time. This function finds the index of the next operation that should be executed within a given tier.
 
 ```javascript 
 function getNextOperatorIndex(expression, tier) {
@@ -163,6 +170,8 @@ function getNextOperatorIndex(expression, tier) {
   return nextOperatorIndex;
 }
 ```
+
+The way we jump forward by two's for right associative operators may seem weird but we need to remember that, because of how we will handle parentheses later, this function will never actually be used on an expression with parentheses.
 
 ### Fleshing out the Loop
 So we know we can find the next operand. We can build a while loop to keep performing operations until all operations in the current tier are performed like so
