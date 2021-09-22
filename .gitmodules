@@ -1,6 +1,6 @@
 [submodule "public"]
 	path = public
-	url = git@github.com:MaxraySavage/MaxraySavage.github.io.git
+	url = https://github.com/MaxraySavage/MaxraySavage.github.io.git
 	branch = main
 [submodule "themes/PaperMod"]
 	path = themes/PaperMod

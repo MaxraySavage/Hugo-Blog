@@ -1,4 +1,4 @@
-baseURL: "https://examplesite.com"
+baseURL: "https://maxraysavage.github.io/"
 title: Maxray's Website
 paginate: 5
 theme: PaperMod
@@ -68,12 +68,8 @@ params:
         Content: Welcome to my blog
 
     socialIcons:
-        - name: twitter
-          url: "https://twitter.com/"
-        - name: stackoverflow
-          url: "https://stackoverflow.com"
         - name: github
-          url: "https://github.com/"
+          url: "https://github.com/MaxraySavage"
 
     analytics:
         google:
@@ -104,10 +100,6 @@ menu:
           name: tags
           url: /tags/
           weight: 20
-        - identifier: example
-          name: example.org
-          url: https://example.org
-          weight: 30
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 # pygmentsUseClasses: true
 # markup:
