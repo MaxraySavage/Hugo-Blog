@@ -70,6 +70,8 @@ params:
     socialIcons:
         - name: github
           url: "https://github.com/MaxraySavage"
+        - name: linkedin
+          url: "https://www.linkedin.com/in/smaxray/"
 
     analytics:
         google:
