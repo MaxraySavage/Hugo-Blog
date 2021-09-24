@@ -17,7 +17,7 @@ description: "Coding an arithmetic expression evaluator in Javascript"
 disableHLJS: false # to disable highlightjs
 disableShare: false
 hideSummary: false
-searchHidden: true
+searchHidden: false
 ShowReadingTime: true
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
@@ -29,39 +29,41 @@ mathjax: true
 #     relative: false # when using page bundles set this to true
 #     hidden: true # only hide on current single page
 editPost:
-    URL: "https://github.com/MaxraySavage/Hugo-Blog/content/posts/PEMDAS-from-scratch.md"
+    URL: "https://github.com/MaxraySavage/Hugo-Blog/"
     Text: "Suggest Changes" # edit text
     appendFilePath: true # to append file path to Edit link
 ---
 
 ## Intro
+A few months ago I made an edutainment game for The Odin Project's first game jam. My team and I had decided to build a game for practicing basic math. I took on the task of generating the problems as appropriate for each level of the game. It was hard! Generating random arithmetic expressions within certain difficulty constraints was *not* simple. 
 
+For example, one difficulty constraint we had was that our audience should not have to even consider the existence of negative numbers. At first that seemed easy, just make sure the answer isn't a negative number, right? But what about something like `$5 - 2 \times 5 + 20$`. The answer is `$15$` but along the way you end up with `$-15 + 20$`. Bad!
 
+In order to enforce our constraints, I wrote a script to evaluate expressions step by step so I could tell if my problems conformed to my difficulty constraints. Which meant I had to get very friendly with ***PEMDAS***.
 
-A few months ago I made an edutainment game for The Odin Project's first game jame. My team had decided to build a game for practicing basic math. I took on the task of generating the problems as appropriate for each level of the game. It was hard! Generating random arithmetic expressions within certain difficulty constraints wasn't simple. In order to enforce our constraints, I wrote my own script to evaluate expressions step by step so I could tell if my problems conformed to my difficulty constraints. Which meant I had to get very friendly with ***PEMDAS***.
+I got interested in the idea of writing code to solve a math problem in the same order and with the same techniques as how a person would do it. This turned out to be pretty tricky but I had fun doing it so I decided to make it into my first *ever* blog post! 
 
-I got the impression that it was actually an interesting problem to write code to solve a math problem in the same order and with the same etchniques as how a person might do it. This turned out to be pretty tricky but I had a lot of fun doing it so I decided top make it into my first *ever* blog post! 
-
-## Let's Define the Problem
-I've found that when you attempt to solve a problem with code you can either spend a few extra minutes defining your terms really well in the beginning or get totally lost halfway through whatever your project is. So let's take a moment to think about what we're doing here. 
+## Define the Problem
+When you attempt to solve a problem with code you can either spend a few extra minutes defining your terms really well in the beginning or get totally lost halfway through whatever your project is. So let's take a moment to think about what we're actually doing here. 
 
 ### What are we making?
-A function written in javascript. The function should take an arithmetic expression as an input and return the result of evaluating the expression. It should ressolve individual operations in the order dictated by **PEMDAS**.
+A function written in javascript. The function should take an arithmetic expression as an input and return the result of evaluating the expression. It should resolve individual operations in the order dictated by **PEMDAS**.
 
-I did some research on how other people have solved this problem but nothing really seemed to fit my requirements because I wanted to evaluate my expressions in the same way that a person would and have the freedom to step through evaluation one operation at a time. 
+I did some research on how other people have solved this problem but nothing really seemed to fit my requirements because I wanted to evaluate my expressions in the same way that a person would without getting into postfix notation. 
 
 ### What is an arithmetic expression?
 So what really *is* an arithmetic expression? If you dig deeply enough you end up in philosophy. Instead let's allow for a subset of arithmetic expressions specifically
 - there will be numbers
 - there will be binary operators (operators that take two numbers and spit out a number)
 - there will be parentheses
+- the expression will be well formed (nothing like `$2 + (((+ *  - 4 23 4.3$`)
 
-We need to decide on the expected format for our input. So, what is an arithmetic expression ***to us***. We have some choices here. We could represent an arithmetic expression as a string like `'2 + 7 x 4'`. There are benefits to this. For our game I ended up using this method mainly so that other people using my code to generate expressions wouldn't have to deal with formatting and could just print problems to the player. This led to every function I wrote having a preamble splitting the string into an array at the beginning and then rejoining everything at the end. For this article I decided to instead expect an expression to be an array. So for example the expression `$3 + 2$` will be an array with 3 elements like this: `[3, '+', 2]`. We can also include parentheses, so we might have something like `$(3 + 2) \times 7$` which would look like `['(', 3, '+', 2, ')', 'x', 7]`
+We need to decide on the expected format for our input. So, what is an arithmetic expression ***to us***. We have some choices here. We could represent an arithmetic expression as a string like `"2 + 7 x 4"`. There are benefits to this. For our game I ended up using this method mainly so that other people using my code to generate expressions wouldn't have to deal with formatting and could just print problems to the player. This led to every function I wrote having a preamble splitting the string into an array at the beginning and then rejoining everything at the end. For this article I decided to instead expect an expression to be an array. So for example the expression `$3 + 2$` will be an array with 3 elements like this: `[3, '+', 2]`. We can also include parentheses, so we might have something like `$(3 + 2) \times 7$` which would look like `['(', 3, '+', 2, ')', 'x', 7]`
 
 So our input will be an array of this form. We will trust that our inputs are well formed for the purposes of this algorithm. So no missing parentheses, chains of addition signs or anything else. Not very realistic but maybe validating that could be another article for you to enjoy! Let's save some fun for later.
 
 ### How do you evaluate an expression?
-There's a relatively ubiquitous algorithm for evaluating arithmetic expressions called PEMDAS. This algorithm tends to be pretty tricky as evidenced by the biannual viral tweet where the internet argues about the right way to evaluate some expression or another. PEMDAS is not only an algorithm, it is also an acronym! It stands for 
+There's a relatively ubiquitous algorithm for evaluating arithmetic expressions called PEMDAS. This algorithm tends to be pretty tricky as evidenced by the biannual viral tweet where the internet argues about the right way to evaluate some expression or another (usually the confusion actually comes from an omitted multiplication sign!). PEMDAS is not only an algorithm, it is also an acronym! It stands for 
 
 - Parentheses
 - Exponentiation
@@ -74,7 +76,7 @@ The thing is, PEMDAS actually only has 4 tiers of evaluation, not the 6 you migh
 
 Let's consult this handy diagram: 
 
-![PEMDAS diagram](/pemdas-diagram.png)
+![PEMDAS diagram](/images/pemdas-diagram.png)
 
 So the multiplication and division happen in the same tier and the addition and subtraction happen in the same tier. Most of these operators are evaluated from left to right. However, exponents are tricky! Exponents are ***[right associative](https://en.wikipedia.org/wiki/Associative_property)*** which means that, within a sequence of exponents, we should evaluate the rightmost pair first. 
 
@@ -99,8 +101,8 @@ function evaluateExpression (arithmetic expression):
    - Exponents are denoted in javascript with the binary operator `**`
    - Examples:
       - `$12 + 3^2$` becomes `$12 + 9$`
-      - `$12 + 3^2$` in javascript looks like `12 + 3**2`
-      - Evaluated right to left (which is weird!) so `2**1**3` becomes `$2^{1^3} \rightarrow 2^1 \rightarrow 2$` which is NOT what would happen if you went left to right. That would be `$2^{1^3} \rightarrow 2^3 \rightarrow 8$`
+      - `$12 + 3^2$` in javascript looks like `12 + 3 ** 2`
+      - Evaluated right to left (which feels weird!) so `2 ** 1 ** 3` becomes `$2^{1^3} \rightarrow 2^1 \rightarrow 2$` which is NOT what would happen if you went left to right. That would be `$2^{1^3} \rightarrow 2^3 \rightarrow 8$`
 * **Multiplication and Division**: 
    - Multiplication and division are the second tier of operators to evaluate
    - In javascript, multiplication is represented by `*` and division is represented by `/`
@@ -118,7 +120,7 @@ function evaluateExpression (arithmetic expression):
 So we know what are inputs and outputs are and understand our general steps we need to take to make this happen. My sense is that parentheses will be best implemented using recursion after we get `EMDAS` done. So we'll start with solving expressions without parentheses and go from there.
 
 
-## Solution
+## Evaluating Operations
 We will evaluate the expression in three tiers, first `exponentiation`, then `multiplication and division`, then `addition and subtraction`. We'll get to parentheses at the end. 
 
 ### Evaluation Tiers
@@ -137,7 +139,7 @@ Now we can start to build our function `evaluateExpression` (I'm using the sprea
 Remember that, for us, an expression is an array that looks like `[1, '+', 2]`
 
 ```javascript
-function evalExpression(expressionArray) {
+function evaluateAllOperations(expressionArray) {
    const expression = [...expressionArray];
    evaluationTiers.forEach((tier) => {
     // do something
@@ -146,7 +148,7 @@ function evalExpression(expressionArray) {
 }   
 ```
 
-### Finding the Next operator            
+### Find the Next Operator            
 What do we do within the `forEach` callback ? 
 We need to look through the expression to see if any operations in the current tier are represented and we need to figure out which of those operations we should do first. 
 
@@ -175,11 +177,11 @@ function getNextOperatorIndex(expression, tier) {
 
 The way we jump forward by two's for right associative operators may seem weird but we need to remember that, because of how we will handle parentheses later, this function will never actually be used on an expression with parentheses.
 
-### Fleshing out the Loop
+### Fleshing Out the Loop
 So we know we can find the next operand. We can build a while loop to keep performing operations until all operations in the current tier are performed like so
 
 ```javascript
-function evaluateExpression(expressionArray) {
+function evaluateAllOperations(expressionArray) {
   const expression = [...expressionArray];
   evaluationTiers.forEach((tier) => {
     let nextOperatorIndex = getNextOperatorIndex(expression, tier);
@@ -193,11 +195,12 @@ function evaluateExpression(expressionArray) {
 ```
 
 ### Evaluating Individual Operations            
-Now, what do we do in our while loop? We should probably do something with nextOperatorIndex. We want to evaluate whatever operation that nextOperatorIndex is pointing us to. Let's look at a small example. If we had the array `[1, '+', 3, 'x', 7]` and `nextOperatorIndex` is currently `3`, what should we do? We need to:
-- Look at the operator at index 3
+Now, what do we do in our while loop? Well, we should probably do something with `nextOperatorIndex`. We want to evaluate whatever operation that `nextOperatorIndex` is pointing us to. Let's look at a small example. If we had the array `[1, '+', 3, 'x', 7]` and `nextOperatorIndex` is currently `3`, what should we do? We need to:
+- Look at the operator at index `3`
 - See if it tells us to multiply, divide, add, etc.
-- Get the result of performing the operation on the numbers at index 2 and 4 
-- Then replace the items at index 2, 3 and 4 with the result
+- Get the result of performing the operation on the numbers at index `2` and `4` 
+- Then replace the items at index `2`, `3` and `4` with the result.
+
 So in this case we replace the `[3, 'x', 7]` portion of the array with 21 leaving us with `[1, '+', 21]`. How do we do this with code? First we can write a helper function to handle figuring out what operation to do and then doing it.
 
 ```javascript
@@ -224,7 +227,7 @@ function evalOperation(operandOne, operator, operandTwo) {
 }
 ```
 
- Now we have to replace the operand and its operators with the result of performing the operation. For this we'll write a new function. I decided to have the function operate directly on the expression it is passed rather than return a modified copy of the input array though that approach would also be possible. We can then use this helper function to replace the array elements from index = nextOperatorIndex - 1, to nextOperatorIndex + 1 with the result of the operation like so: 
+ Now we have to replace the operand and its operators with the result of performing the operation. For this we'll write a new function. I decided to have the function operate directly on the expression that it is passed rather than return a modified copy of the input array.
 
 ```javascript
 function performOperation(expression, index) {
@@ -235,10 +238,10 @@ function performOperation(expression, index) {
 }
 ```
             
-### All togther now
-Putting together all the functions we have written we have our expression evaluator! We still can't work with parentheses but other than that we;'re doing great.
+### Putting it Together
+Putting together all the functions we have written we have our expression evaluator! We still can't work with parentheses but other than that we're doing great.
 ```javascript
-function evaluateExpression(expressionArray) {
+function evaluateAllOperations(expressionArray) {
    const expression = [...expressionArray];
    evaluationTiers.forEach((tier) => {
     let nextOperatorIndex = getNextOperatorIndex(expression, tier);
@@ -251,11 +254,9 @@ function evaluateExpression(expressionArray) {
 }    
 ```               
 
-And this will work for any expressions that don't contain parentheses!
 ## Adding Parentheses
-Parentheses are a little bit tricker than everything else. However, they are a great opportunity to work on recursive problem solving. What we can do is, check to see if our expression has parentheses. If it does, we can take whatever is in the parentheses and call solveExpression on whatever lies between the parentheses. As these subcalls happen, they will eventually get to an expression that has no parentheses, solve that one, and then recurse out of there. So what does this look like? Something like this:
+To me, dealing with parentheses felt little bit tricker than everything else. I did feel like they were a great opportunity to work on recursive problem solving. What we can do is, check to see if our expression has parentheses. If it does, we can take whatever is within the parentheses and call `evaluateExpression` on whatever lies between the parentheses. As these subcalls happen, they will eventually get to an expression that has no parentheses, solve that one, and then recurse out of there. So what does this look like? Something like this:
 
-### Building out another loop
 ```javascript
 function evaluateExpression(expressionArray) {
   const expression = [...expressionArray];
@@ -264,21 +265,11 @@ function evaluateExpression(expressionArray) {
     // do something
     openingParenthesesIndex = expression.findIndex((o) => o === '(');
   }
-  evaluationTiers.forEach((tier) => {
-    let nextOperatorIndex = getNextOperatorIndex(expression, tier);
-    while (nextOperatorIndex !== -1) {
-      const result = evalOperation(
-        ...expression.slice(nextOperatorIndex - 1, nextOperatorIndex + 2)
-      );
-      expression.splice(nextOperatorIndex - 1, 3, result);
-      nextOperatorIndex = getNextOperatorIndex(expression, tier);
-    }
-  });
-  return expression[0];
+  return evaluateAllOperations(expression);
 }
 ```         
-### Where is the closing parentheses?               
-But how do we find the closing parentheses? We can declare a variable called parentheses depth that will keep track of how deep into parentheses we go. We have to do this so we dont think the first closing paren in an expression like `$(2*(2+3) + 2)$` is the one we are looking for and try and treat `$2*(2+3$` as a subexpression.
+### Closing Parentheses               
+But how do we find the closing parentheses? We can declare a variable called `parenthesesDepth` that will keep track of how deep into parentheses we go. We have to do this so we dont think the first closing parentheses in an expression like `$(2*(2+3) + 2)$` is the closing parentheses we are looking for and try and treat `$2*(2+3$` as a subexpression. If a parentheses isn't found we return `-1` to mimic the behavior of `findIndex`.
 
 ```javascript
 function findClosingParenthesesIndex(expression, openingParenthesesIndex) {
@@ -293,10 +284,29 @@ function findClosingParenthesesIndex(expression, openingParenthesesIndex) {
       }
     }
   }
-  return 'Error: no closing parentheses found';
+  return -1;
 }
-```        
-### The whole thing  
+```  
+
+We'll also need a little utility function to actually create the array representing our subexpression. We can use our `findClosingParentheses` function to make writing our utility function somewhat trivial. Notice that because we are adding one to `openingParenthesesIndex` and the `slice` array method excludes the item located at the ending index, we will not be including the subexpression's surrounding parentheses.  
+
+```javascript
+function getSubexpression(expression, openingParenthesesIndex) {
+  const closingParenthesesIndex = findClosingParenthesesIndex(
+    expression,
+    openingParenthesesIndex,
+  );
+  const subexpression = expression.slice(
+    openingParenthesesIndex + 1,
+    closingParenthesesIndex,
+  );
+  return subexpression;
+}
+```
+I really like pulling stuff like this out into its own function because, when you use long descriptive variable names (something else I enjoy) the code can start to look very crowded. 
+###   
+We can now effectively grab our subexpressions out of the main expression! Sometimes good recursion feels like cheating. We can evaluate our subexpression by calling our `evaluateExpression`. This will eventually recurse to a layer with no parentheses. In that layer, the function will finally get to its second half where it actually performs operations. Once it evaluates that subexpression on the final layer, we will replace the subexpression with the result which we do with `splice`. And here I present the result of our hard labor, the final `evaluateExpression` function!
+
 ```javascript
 function evaluateExpression(expressionArray) {
   const expression = [...expressionArray];
@@ -314,37 +324,11 @@ function evaluateExpression(expressionArray) {
     );
     openingParenthesesIndex = expression.findIndex((o) => o === '(');
   }
-  evaluationTiers.forEach((tier) => {
-    let nextOperatorIndex = getNextOperatorIndex(expression, tier);
-    while (nextOperatorIndex !== -1) {
-      performOperation(expression, nextOperatorIndex);
-      nextOperatorIndex = getNextOperatorIndex(expression, tier);
-    }
-  });
-  return expression[0];
-}
-```
-
-## Formatting a String into an Expression Array
-Just for fun, I wrote a method to take in a string and format it like an expression array we've been using. I like a chance to practice using regex, call me crazy.
-
-```javascript
-function parseExpression(expressionString) {
-  const expressionArray = Array.from(
-    expressionString.matchAll(
-      /-?[0-9]+\.?[0-9]*|\*{2}|\*{1}|\/|\+|-|\(|\)/g
-    )
-  ).map((v) => v[0]);
-  return expressionArray.map((term) => {
-    if (Number.isNaN(parseFloat(term))) {
-      return term;
-    }
-    return parseFloat(term);
-  });
+  return evaluateAllOperations(expression);
 }
 ```
 
 ## Closing Thoughts
-I feel like writing this forced me to refactor my code to be easir to present in this blog and write more helper functions so that the main function would be less bloated looking.
+I feel like writing this forced me to refactor my code to be easier to present in this blog as well as  write more helper functions so that the main function would be less bloated looking.
 
-I really like any time I get to use recursion in a reasonable way so I enjoyed figuring out how to deal with parentheses. I like this project because I feel like I came away witha deeper understanding of how expressions are evaluated. What a wild ride! You can check out the game calculationster here: {{<calculationster>}}
+I really like any time I get to use recursion in a reasonable way so I enjoyed figuring out how to deal with parentheses. I like this project because I feel like I came away with a deeper understanding of what actually goes into evaluating an expression. What a wild ride! Thanks for reading! You can check out the game Calculationster that inspired all this work here: {{<calculationster>}}
