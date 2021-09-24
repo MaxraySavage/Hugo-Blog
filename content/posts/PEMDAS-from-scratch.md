@@ -331,4 +331,6 @@ function evaluateExpression(expressionArray) {
 ## Closing Thoughts
 I feel like writing this forced me to refactor my code to be easier to present in this blog as well as  write more helper functions so that the main function would be less bloated looking.
 
-I really like any time I get to use recursion in a reasonable way so I enjoyed figuring out how to deal with parentheses. I like this project because I feel like I came away with a deeper understanding of what actually goes into evaluating an expression. What a wild ride! Thanks for reading! You can check out the game Calculationster that inspired all this work here: {{<calculationster>}}
+I really like any time I get to use recursion in a reasonable way so I enjoyed figuring out how to deal with parentheses. I like this project because I feel like I came away with a deeper understanding of what actually goes into evaluating an expression. What a wild ride! Thanks for reading! You can check out the game Calculationster that inspired all this work here: 
+
+{{<calculationster>}}
