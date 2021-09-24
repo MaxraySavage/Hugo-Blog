@@ -37,7 +37,7 @@ editPost:
 ## Intro
 A few months ago I made an edutainment game for The Odin Project's first game jam. My team and I had decided to build a game for practicing basic math. I took on the task of generating the problems as appropriate for each level of the game. It was hard! Generating random arithmetic expressions within certain difficulty constraints was *not* simple. 
 
-For example, one difficulty constraint we had was that our audience should not have to even consider the existence of negative numbers. At first that seemed easy, just make sure the answer isn't a negative number, right? But what about something like `$5 - 2 \times 5 + 20$`. The answer is `$15$` but along the way you end up with `$-15 + 20$`. Bad!
+For example, one difficulty constraint we had was that our audience should not have to even consider the existence of negative numbers. At first that seemed easy, just make sure the answer isn't a negative number, right? But what about something like `$5 - 2 \times 5 + 20$`. The answer is `$15$` but along the way you end up with `$-5 + 20$`. Bad!
 
 In order to enforce our constraints, I wrote a script to evaluate expressions step by step so I could tell if my problems conformed to my difficulty constraints. Which meant I had to get very friendly with ***PEMDAS***.
 
