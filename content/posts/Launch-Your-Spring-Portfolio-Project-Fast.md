@@ -4,7 +4,7 @@ date: 2021-11-30T12:19:03-05:00
 ---
 
 # Launch Your Spring Code Fast - 101
-You are building a portfolio project using Gradle, Java 11, Hibernate, JPA, MySQL and Srping Boot and you want to launch a cloud instance of your project so people can check it out and tell you how cool it is. I too have had this desire! And I did it! And so can you! With Heroku!
+You are building a portfolio project using Gradle, Java 11, Hibernate, JPA, MySQL and Spring Boot and you want to launch a cloud instance of your project so people can check it out and tell you how cool it is. I too have had this desire! And I did it! And so can you! With Heroku!
 
 ### Database Config
 Heroku needs a `system.properties` file to know which version of java your app uses. 
