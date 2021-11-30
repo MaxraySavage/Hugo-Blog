@@ -1,7 +1,6 @@
 ---
 title: "Launch Your Spring Portfolio Project Fast"
 date: 2021-11-30T12:19:03-05:00
-draft: true
 ---
 
 # Launch Your Spring Code Fast - 101
