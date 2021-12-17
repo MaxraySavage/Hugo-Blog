@@ -67,4 +67,8 @@ If you have trouble finding your app you should be able to find its url from you
 
 It is that easy! Enjoy!
 
+Also, if you're curious, the project that I did all this work to host is 
+* Hosted at: https://hungr-dev.herokuapp.com/
+* And the repo is here: https://github.com/MaxraySavage/hungr-lc
+
 [^bignote]: https://devcenter.heroku.com/articles/war-deployment#deployment-with-the-heroku-cli
