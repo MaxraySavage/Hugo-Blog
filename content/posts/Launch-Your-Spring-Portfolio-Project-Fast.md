@@ -8,7 +8,7 @@ author: Maxray
 A few weeks ago I had a project that I made with Spring Boot that I wanted to show other people.  I spent an inordinately long amount of time wading through strange errors to get it working on Heroku. I don't want you to have to go through what I did. I also don't want to forget what I did and go through it again myself. So I'm writing it down for posterity in the hopes that this will be faster for you!
 
 ## Getting Set Up
-First, a note. These steps worked for me, they may not work for you. If something doesn't work, let me know! Click `Suggest Changes` at the top of this article and leave an issue on the Guthub repo. Thanks!
+First, a note. These steps worked for me, they may not work for you. If something doesn't work, let me know! Click `Suggest Changes` at the top of this article and leave an issue on the Github repo. Thanks!
 
 Second, I set Java 11 and set my packaging setting to War in the spring initializr when I started my project. If you did not do those things, I honestly don't think these steps will work for you. I did try uploading a Jar to Heroku and ended up with some very strange problems that I decided to fix by never doing it again.
 
