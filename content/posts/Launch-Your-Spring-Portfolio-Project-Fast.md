@@ -12,7 +12,8 @@ First, a note. These steps worked for me, they may not work for you. If somethin
 
 Second, I set Java 11 and set my packaging setting to War in the spring initializr when I started my project. If you did not do those things, I honestly don't think these steps will work for you. I did try uploading a Jar to Heroku and ended up with some problems that I decided to fix by never doing it again.
 
-Now let's get started.
+If you already started your project with `Packaging: Jar` instead of `War`, go [here](https://tcserver.docs.pivotal.io/4x/docs-tcserver/topics/convert-to-war.html) for instructions on how to convert your project.
+
 
 ### System Properties
 Heroku needs to find a `system.properties` file to know which version of Java your app uses. 
